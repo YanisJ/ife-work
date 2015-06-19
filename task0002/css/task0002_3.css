@@ -1,0 +1,29 @@
+.carousel {
+    width: 525px;
+    height: 300px;
+
+    position: relative;
+    overflow: hidden;
+
+    margin: 100px auto;
+}
+
+.item {
+    position: absolute;
+    left: 0;
+
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+.item img {
+    display: block;
+}
+
+.control {
+    width: 525px;
+    margin: 0 auto;
+}

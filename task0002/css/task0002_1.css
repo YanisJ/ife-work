@@ -1,0 +1,9 @@
+#alarm {
+    color: red;
+
+    position: absolute;
+    top: 10px;
+    left: 180px;
+
+    display: none;
+}

@@ -1,0 +1,940 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    /*font-size: 12px;*/
+    text-indent: 2em;
+}
+
+body {
+    /*width: 980px;*/
+    /*margin: 0 auto;*/
+    min-width: 980px;
+    font-family: SimSun;
+}
+
+li {
+    list-style: none;    
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* 清除浮动 */
+.clearfix:before,.clearfix:after {
+content:"";
+display:table;
+}
+.clearfix:after { clear:both; }
+.clearfix { zoom:1; }
+
+
+
+
+.header {
+    width: 100%;
+    /*height: 80px;*/
+
+    background-color: black;
+    background: #000;
+
+    color: white;
+
+    position: relative;
+}
+
+.inner {
+    width: 980px;
+    
+    margin: 0 auto;
+    background-color: transparent;
+}
+
+.header-inner {
+    height: 80px;
+
+    position: relative;
+}
+
+.logo {
+    text-indent: -9999px;
+
+    position: absolute;
+}
+
+.owen-logo {
+    width: 110px;
+    height: 50px;
+
+    bottom: 0px;
+    left: 0px;
+
+
+    background: url(../img/ologo.png);
+    background-repeat: no-repeat;
+
+}
+
+.main-nav {
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+}
+
+.main-nav li {
+    float: left;
+    margin-left: 28px;
+
+    font-size: 14px;
+}
+
+.nav a:link, .nav a:visited {
+    color: white;
+
+}
+
+.git-logo {
+    width: 30px;
+    height: 34px;
+
+    background-image: url(../img/icon-github.png);
+
+}
+
+.header-git-logo {
+    right: 10px;
+    bottom: 0;
+}
+
+.banner {
+    background-image: url(../img/banner-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    height: 525px;
+}
+
+.banner-inner {
+    height: 100%;
+
+    position: relative;
+}
+
+.title {
+    width: 340px;
+
+    position: absolute;
+
+    right: 0px;
+    bottom: 0px;
+
+    background: 
+        -webkit-linear-gradient(
+            top,
+            rgba(255,255,255,0.7),
+            rgba(255,255,255,0.5) 75%,
+            rgba(255,255,255,0)
+        );
+
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3ffffff', endColorstr='#00ffffff',GradientType=0 );
+    
+    color: white;
+
+    padding: 10px 10px 30px;
+}
+
+.title h1 {
+    font-size: 14px;
+    margin-bottom: 12px;
+
+    text-align: right;
+}
+
+.title p {
+    font-size: 12px;
+    line-height: 150%;
+}
+
+.boxes {
+    background-color: #eeeeee;
+    
+    padding: 10px 0 110px;
+}
+
+.boxes-inner {
+    /*width: 980px;*/
+    /*margin: 0 auto;*/
+
+    /*background: transparent;*/
+
+    overflow: hidden;
+}
+
+.box {
+    width: 320px;
+
+    background-color: white;
+
+    float: left;
+
+    margin-right: 10px;
+    margin-bottom: -5000px;
+    padding-bottom: 5000px;
+
+
+}
+
+
+.photo {
+    display: block;
+    height: 180px;
+    margin: 10px;
+}
+
+.description {
+    margin: 15px 30px 25px;
+    
+    font-size: 12px;
+    line-height: 170%;
+}
+
+.self-photo {
+    display: block;
+    width: 160px;
+
+    border-radius: 50%;
+
+    margin: -50px auto 50px;
+}
+
+.about-self-photo {
+    border: 10px solid #eee;
+    margin: -70px auto 0px;
+}
+
+.introduction h2 {
+    font: 20px "Century Gothic";
+
+    text-align: center;
+}
+
+.self-intro {
+    width: 600px;
+
+    margin: 50px auto 180px;
+
+}
+
+.self-intro p {
+    font-size: 14px;
+
+    line-height: 170%;
+
+}
+
+.footer {
+    background: black;
+    color: white;
+    font-size: 12px;
+}
+
+.footer-nav {
+    height: 35px;
+
+    
+    /*color: white;*/
+
+    font-size: 0;
+
+    text-align: center;
+
+    border-bottom: 1px solid #333333;
+}
+
+.footer-nav li {
+    display: inline;
+
+    line-height: 35px;
+
+    font-size: 12px;
+
+    margin: 0 12px;
+}
+
+.footer-main {
+
+    margin-bottom: 95px;
+}
+
+.item {
+    width: 176px;
+
+    float: left;
+
+    margin: 42px 25px 0px 0px;
+}
+
+
+.item-title {
+    margin-bottom: 30px;
+}
+
+.item-content {
+    margin-top: 10px;
+}
+
+.item-content a:link, 
+.item-content a:visited, 
+.item-content a:hover {
+    color: white;
+}
+
+.item-content a:hover {
+    text-decoration: underline;
+}
+
+.footer p {
+    text-indent: 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.footer-git-logo {
+    position: static;
+
+    display: block;
+
+    margin: 0 auto;
+}
+
+
+
+.main {
+    background-color: #eeeeee;
+}
+
+.main-inner-blog {
+    padding-top: 20px;
+}
+
+.main-inner-about {
+    padding-top: 100px;
+}
+
+
+
+.main-content {
+    width: 710px;
+
+    float: left;
+}
+
+
+
+.artical {
+    margin-bottom: 10px;
+    background-color: white;
+    padding: 17px 18px 11px;
+
+    font-size: 12px;
+    line-height: 1.7;
+
+    position: relative;
+}
+
+.artical-tagbar {
+    /*float: left;*/
+    /*margin-left: -50px;*/
+    
+    position: absolute;
+    left: -51px;
+    top: 20px;
+
+    
+    width: 50px;
+}
+
+.artical-time, .artical-tag {
+    height: 40px;
+
+    font-size: 15px;
+    line-height: 40px;
+
+    text-align: center;
+
+    color: white;
+}
+
+.artical-time {
+    background-color: black;
+}
+
+.artical-tag {
+    background-color: #666;
+}
+
+.artical-head {
+    margin-bottom: 8px;
+}
+
+.artical-title {
+    font-size: 16px;
+}
+
+.subheading {
+    color: #666;
+    font-weight: bold;
+}
+
+.artical-content {
+    margin-bottom: 26px;
+}
+
+.sign {
+    color: #999999;
+
+    display: block;
+    text-align: right;
+}
+
+
+
+.pitems {
+    text-align: center;
+}
+
+.pitems-inner {
+    display: inline-block;
+}
+
+.pitem {
+    height: 35px;
+
+    float: left;
+    
+    font-size: 12px;
+    line-height: 35px;
+    
+    vertical-align: middle;
+    text-align: center;
+
+    background-color: white;
+
+    cursor: pointer;
+
+    margin-right: 10px;
+}
+
+.pnum {
+    width: 40px;
+}
+
+.pt {
+    width: 75px;
+}
+
+.pactive {
+    background: black;
+    color: white;
+}
+
+.disable {
+    color: #ccc;
+    cursor: default;
+}
+
+
+/* Content navigation */
+.content-nav-inner {
+    background: white;
+    float: left;
+
+    font-size: 16px;
+}
+
+.content-nav li {
+    float: left;
+
+
+    border-right: 1px solid #eee;
+
+
+}
+
+.content-nav span {
+    height: 70px;
+    line-height: 70px;
+    padding: 0px 20px;
+    display: block;
+    border-bottom: 1px solid #eee;
+
+    cursor: pointer;
+}
+
+.cnall {
+    border-top: 4px solid #ccc;
+}
+
+.cnjsui {
+    border-top: 4px solid #666;
+}
+
+.cncomponent {
+    border-top: 4px solid #999;
+}
+
+.cnframe {
+    border-top: 4px solid black;
+}
+
+.cnapp {
+    border-top: 4px solid #7b7676;
+}
+
+span.cnactive {
+    border-bottom: 1px solid white;
+}
+
+
+/* Gallery */
+.gallery {
+    background: white;
+
+    padding: 20px;
+}
+
+.column {
+    width: 160px;
+
+    float: left;
+
+    margin-right: 10px;
+}
+
+.wider-column {
+    width: 330px;
+}
+
+.g-item {
+    /*height: 50px;*/
+
+    margin-bottom: 10px;
+
+    background: #ccc;
+
+    color: white;
+}
+
+.g-photo {
+    display: block;
+    width: 100%;
+}
+
+.g-description {
+    padding: 11px 10px 14px;
+}
+
+/*.g-description div {
+    float: left;
+}*/
+
+.g-tag {
+    float: left;
+
+    width: 25px;
+    height: 25px;
+
+    font-size: 15px;
+    line-height: 25px;
+
+    text-align: center;
+
+    border: 1px solid #666;
+
+    border-radius: 50%;
+
+    margin-right: 13px;
+
+    /*margin-left: -100%;*/
+}
+
+.g-content {
+    padding-left: 40px;
+    font-size: 12px;
+}
+
+.g-content h4 {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+
+/* getmore */
+.getmore {
+    height: 50px;
+
+    line-height: 50px;
+
+    text-align: center;
+}
+
+
+.about-main {
+    
+    background-color: white;
+
+    border-top: 1px solid #eee;
+}
+
+
+/* ====================== */
+
+/*  SIDE BAR  */
+
+/* ====================== */
+
+.main-sidebar {
+    width: 260px;
+
+    float: left;
+    
+    margin-left: 10px;
+}
+
+.sidebar-box {
+    background: white;
+    margin-bottom: 10px;
+}
+
+.lower-box {
+    margin-top: 75px;
+}
+
+
+/* Search */
+
+.search {
+    padding: 19px;
+
+    font-size: 0px;
+
+}
+
+
+.search input[type="text"] {
+    width: 169px;
+    height: 40px;
+    vertical-align: middle;
+
+    font-size: 12px;
+
+    border: 1px solid #ddd;
+
+    background-image: url(../img/search.png);
+}
+
+.search input[type="text"]:focus {
+    background-image: none;
+}
+
+.search input[type="submit"] {
+    width: 51px;
+    height: 42px;
+
+    vertical-align: middle;
+    /*font-size: 16px;*/
+
+    background-image: url(../img/submit.png);
+    color: white;
+
+    border:0;
+}
+
+
+/* Classification */
+
+.classification {
+    border-top: 1px solid #ddd;
+    
+}
+
+.class {
+    height: 49px;
+    border-bottom: 1px solid #ddd;
+
+    line-height: 49px;
+
+}
+
+.class a{
+    display: block;
+    padding-left: 18px;
+    border-left: 4px solid #ccc;
+    cursor: pointer;
+}
+
+.class a, .class a:link, .class a:visited {
+    border-color: #ccc;
+    color: #666;
+}
+
+.class a:hover, .cactive a{
+    border-color: black;
+}
+
+
+/* Calendar */
+
+.calendar {
+    padding: 20px 20px 26px;
+
+    font-size: 14px;
+}
+
+.calendar-head {
+    text-align: center;
+
+    font-weight: bold;
+
+    margin-bottom: 6px;
+
+    color: #666;
+}
+
+.month-prev {
+    float: left;
+
+    margin-left: 13px;
+}
+
+.month-next {
+    float: right;
+
+    margin-right: 13px;
+}
+
+.calendar-body {
+    border-collapse: collapse;
+}
+
+.calendar-body tr {
+    border-bottom: 1px solid #999999;
+}
+
+.calendar-body td {
+    width: 26px;
+    height: 20px;
+
+    padding: 5px 2px 8px 2px;
+
+    text-align: center;
+    line-height: 20px;
+
+    color: #999999;
+}
+
+td.t-first {
+    padding-left: 7px;
+}
+
+td.t-last {
+    padding-right: 7px;
+}
+
+.calendar-body span {
+    display: block;
+}
+
+.t-mark {
+    color: black;
+    font-weight: bold;
+}
+
+.t-current {
+    color: white;
+    background-color: #666;
+}
+
+
+/* Tags */
+.tags {
+    padding: 9px 15px 30px;
+
+    color: #666;
+
+    cursor: default;
+}
+
+
+.panel-heading {
+    font-size: 15px;
+    color: #666666;
+    margin-bottom: 13px;
+    font-weight: normal;
+}
+
+.tags span {
+    cursor: pointer;
+}
+
+.tags-large {
+    font-size: 29px;
+    font-weight: bold;
+}
+
+.tags-big {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.tags-middle {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.tags-small {
+    font-size: 15px;
+}
+
+.tags-tinny {
+    font-size: 11px;
+}
+
+
+/* Popular */
+
+.popular {
+    padding: 20px 15px;
+}
+
+.pop-item {
+    margin-bottom: 9px;
+}
+
+.pop-index {
+    display: inline-block;
+
+    height: 15px;
+    width: 15px;
+
+    /*border: 1px solid #666;*/
+
+    border-radius: 50%;
+    vertical-align: middle;
+
+    text-align: center;
+    line-height: 15px;
+
+    color: white;
+    background-color: #999;
+}
+
+.pop-outer {
+    display: inline-block;
+
+    background-color: #ccc;
+
+    width: 100px;
+    height: 16px;
+
+    border: 1px solid #999;
+
+    vertical-align: middle;
+}
+
+.pop-inner {
+    height: 100%;
+
+    background-color: #999;
+}
+
+.pop-title {
+    vertical-align: middle;
+    line-height: 18px;
+    font-size: 14px;
+}
+
+
+/* ======SIDE BAR END======= */
+
+
+/* =============ABOUT==============*/
+
+
+.about-lt {
+    float: left;
+    
+    width: 407.5px;
+
+    padding: 25px 80px 0px 0px;
+
+    font-size: 20px;
+    text-align: right;
+
+}
+
+.about-lc {
+    float: left;
+    width: 327.5px;
+
+    border-left: 5px solid #eee;
+
+    padding-top: 20px;
+    padding-bottom: 25px;
+    padding-left: 30px;
+    padding-right: 130px;
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.contact {
+    display: block;
+}
+
+.small-photo {
+    clear: both;
+    width: 110px;
+    height: 110px;
+
+    margin-top: 0px;
+
+    border-width: 5px;
+}
+
+.edu {
+    display: block;
+    margin-bottom: 35px;
+
+
+}
+
+.e-time {
+    background-color: white;
+
+    border: 5px solid #eee;
+    border-radius: 11px;
+
+    padding: 3px 15px 6px;
+
+    margin-left: -65px;
+}
+
+
+
+
+
+
+.last {
+    margin-right: 0px;
+}
+
+@media screen and (max-width: 980px) {
+    .header-git-logo {
+        display: none;
+    }
+}

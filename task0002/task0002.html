@@ -1,0 +1,281 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>task0002</title>
+    <style>
+        body {
+            height: 500px;
+        }
+
+        #sibling {
+            padding: 10px;
+            height: 40px;
+            position: relative;
+
+            border: 1px solid;
+        }
+
+        #d1 {
+            height: 12px;
+            background: skyblue;
+            
+            border: 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="cname">
+        
+    </div>
+
+    <div id="sibling">
+        <div id="d1"></div>
+        <button id="b1">Get Position</button>
+    </div>
+
+    <ul id="list">
+        <li>Simon</li>
+        <li>Kenner</li>
+        <li>Erik</li>
+    </ul>
+    <button id="btn">Change</button>
+    <!-- <input id="number1" type="text">
+    <input id="number2" type="text">
+    <span id="result"></span>
+    <button id="addbtn"></button> -->
+<script src="util.js"></script>
+<script>
+    // console.log("Hello World!");
+
+
+
+    // function $ ( id ) {
+    //     return document.getElementById(id);
+    // }
+
+    // function add ( num1, num2 ) {
+    //     return parseInt(num1) + parseInt(num2);
+    // }
+
+    // function renderResult ( result ) {
+    //     $('result').innerHTML = result;
+    // }
+
+    // function addEventHandle () {
+    //     var num1 = $("number1").value;
+    //     var num2 = $("number2").value;
+    //     var result = add(num1,num2);
+    //     renderResult(result);
+    // }
+
+    // function initEvent () {
+    //     $("addbtn").addEventListener('click', addEventHandle);
+    // }
+
+    // initEvent();
+
+    function renderResult ( index, result ) {
+        var param;
+        index += 1;
+        if (result) param = "PASS";
+        else param = "FAIL";
+
+        $("#container").innerHTML += "<div><span>Test "+index+":</span>"+ result +"<span>.........." + param + "</span></div>";
+    }
+
+    function test1 () {
+        var a = [],
+            b = new Object;
+
+
+        return isArray(b)||isArray(a);
+    }
+
+    function test2 () {
+        var a = function () {};
+
+        return isFunction(a);
+    }
+
+    function test3 () {
+        var body = document.getElementsByTagName('body')[0];
+        var paramList = [ true, 1, new Date(), "hi", /regex/,{}, body];
+
+        return paramList.map(getType);
+    }
+
+    function test4 () {
+        var paramList = [ true, 1, new Date(), "hi", /regex/,{}, function(){}, [1,2,[3,4]]];
+        return paramList.map(function(el){
+            var result = cloneObject(el);
+            console.log(result);
+            return getType(result);
+        });
+    }
+
+    function test5 () {
+        var srcObj = {
+            a: 1,
+            b: {
+                b1: ["hello", "hi"],
+                b2: "JavaScript"
+            }
+        };
+        var abObj = srcObj;
+        var tarObj = cloneObject(srcObj);
+
+        srcObj.a = 2;
+        srcObj.b.b1[0] = "Hello";
+
+        console.log(abObj.a);
+        console.log(abObj.b.b1[0]);
+
+        console.log(tarObj.a);      // 1
+        console.log(tarObj.b.b1[0]);    // "hello"
+    }
+
+    function test6 () {
+        var a = [1, 3, 5, 7, 5, 3];
+        var b = uniqArray(a);
+        console.log(b); // [1, 3, 5, 7]
+    }
+
+    function test7 () {
+        var str = '   hi man!  ';
+        console.log(str);
+        str = trim(str);
+        console.log(str.length); // 'hi!'
+    }
+
+    function test8 () {
+        var arr = ['java', 'c', 'php', 'html'];
+        var output = function (item) {
+            console.log(item)
+        }
+        each(arr, output);  // java, c, php, html
+
+        var arr = ['java', 'c', 'php', 'html'];
+        var output = function (item, index) {
+            console.log(index + ': ' + item)
+        }
+        each(arr, output);  // 0:java, 1:c, 2:php, 3:html
+    }
+
+    function test9 () {
+        var obj = {
+            a: 1,
+            b: 2,
+            c: {
+                c1: 3,
+                c2: 4
+            }
+        };
+        console.log(getObjectLength(obj));
+
+        if(getObjectLength(obj)===3) return true;
+    }
+
+    function test10 () {
+        console.log(isEmail('ricjiang@yahoo.com.cn'));
+        console.log(isEmail('www.baidu.com'));
+        console.log(isEmail('hi!'));
+
+        console.log(isMobilePhone(15926587542));
+    }
+
+    //DOM
+
+    function test11 () {
+        var oDiv = $('#container');
+        console.log('test11-------')
+        console.log(haveClass(oDiv, 'cname'));
+
+        addClass(oDiv,'newClass');
+
+
+        removeClass(oDiv, 'cname');
+    }
+
+    function test12 () {
+        return isSiblingNode($('#container'),$('#d1'));
+    }
+
+    function test13 () {
+        //console.log($('d1').offsetParent.offsetParent);
+        var result = getPosition($('#d1'))
+        console.log(result)
+        return result;
+    }
+
+    function test14 () {
+        var listener = function(e){
+            alert("Div1 be clicked!");
+        };
+
+        var enter = function (e) {
+            alert("You press Enter!");
+        };
+
+        $.click('#d1', listener);
+
+        $('#d1').click();
+
+        $.un('#d1', 'click', listener);
+
+        $('#d1').click();
+
+        $.enter(document, enter);
+    }
+
+    function test15 () {
+        function clickListener (event) {
+            console.log(event);
+        }
+
+        function renderList () {
+            $("#list").innerHTML = '<li>new item</li>';
+        }
+
+        function init () {
+            // each($('#list').getElementsByTagName('li'), function (el) {
+            //     $.click(el, clickListener);
+            // });
+            $.delegate($("#list"), 'li', 'click', clickListener);
+            
+            $.click("#btn", renderList);
+        }
+
+        init();
+
+    }
+
+    function test16 () {
+        return isIE();
+    }
+
+
+
+    // var testList = [ test1, test2, test3, test4, test5, test6, test7, test8, test9, test10, test11, test12, test13, test14, test15, test16 ];
+
+    var testList = [test14,test15,test16];
+
+    function testing () {
+        var i;
+
+        for (i=0; i<testList.length; i++) {
+            var result = testList[i]();
+            renderResult(i,result);
+        }
+    }
+
+    testing();
+
+    var oBtn = $('#b1');
+    oBtn.onclick = function() {
+        test13();
+    };
+
+</script>   
+</body>
+</html>
