@@ -275,6 +275,8 @@ function $ ( selector, base ) {
                 return elList[i];
             }
         }
+
+        return null;
     }
 
     else if ( selector.match(/\[(\S+)\]/) ) {
@@ -441,13 +443,38 @@ function unsetCookie ( c_name, value, path, domain, secure ) {
 
 // Ajax
 function ajax ( url, options ) {
-    var xhr;
+    var xhr, data, i;
     if ( window.XMLHttpRequest) {
         xhr = new XMLHttpRequest();
     } else {
         xhr = new ActiveXObject("Microsoft.XMLHTTP");
     }
+
+    if (options.data){
+        for ( i in options.data ) {
+            data = i + "=" + options.data[i]
+        }
+    }
+
+    if ( options.type === 'get') {
+        url += "?"+data;
+    }
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            options.onsuccess && options.onsuccess(xhr.responseText, xhr);
+        } else {
+            options.onfail && options.onfail();
+        }
+    }
+    
     xhr.open(options.type, url, true);
+    if (options.type === 'post' && data) {
+        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xhr.send(data);
+    } else {
+        xhr.send();  
+    }
 }
 
 
