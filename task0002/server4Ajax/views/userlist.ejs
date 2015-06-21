@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>userlist</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    
+    <ul>
+        <% for(var i=0; i<userlist.length; i++) {%>
+            <li><%= userlist[i].name %></li>
+        <% } %>
+    </ul>
+  </body>
+</html>

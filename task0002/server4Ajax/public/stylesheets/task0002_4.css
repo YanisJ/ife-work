@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.search {
+    width: 149px;
+    margin: 100px auto;
+}
+
+ul {
+    list-style: none;   
+    border: 1px solid;
+    border-top: 0px;
+}
+
+.active {
+    background-color: skyblue;
+}
