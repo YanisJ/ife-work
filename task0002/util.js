@@ -1,27 +1,60 @@
-function getType ( param ) {
-    return Object.prototype.toString.call(param).match(/\s(.+)\]/)[1].toLowerCase();
+/**
+ *
+ * @file util.js
+ *
+ */
+
+
+
+/**
+ * 判断对象的数据类型
+ *
+ * @param {*} variable 任意类型的variable
+ * @return {string} 数据类型
+ */
+function getType ( variable ) {
+    return Object.prototype.toString.call(variable).match(/\s(.+)\]/)[1].toLowerCase();
 }
 
+
+/**
+ * 判断变量是否是数组
+ *
+ * @param {*} arr
+ * @return {boolean}
+ */
 function isArray ( arr ) {
     return getType(arr) === "array";
 }
 
+
+/**
+ * 判断变量是否是函数
+ *
+ * @param {*} fn
+ * @return {boolean}
+ */
 function isFunction ( fn ) {
     return getType(fn) === "function";
 }
 
+
+/**
+ * 深度clone
+ * 不能复制函数、正则等，这些类型会直接返回引用
+ *
+ * @param {*} src 任意类型待复制对象
+ * @return {obj} clone处的新对象
+ */
 function cloneObject ( src ) {
     // 处理5中基本类型
     if ( src === undefined ) return src;
 
-    var result,
-        srcType = getType(src);
-    
-    var i,
-        typeList = ['string', 'boolean', 'number'],
-        l = typeList.length;
+    var result;
+    var srcType = getType(src);
+    var typeList = ['string', 'boolean', 'number'];
 
-    for (i=0; i<l; i++) {
+    for (var i=0, l=typeList.length; i<l; i++) {
         if (srcType === typeList[i]) return src;
     }
 
@@ -30,7 +63,6 @@ function cloneObject ( src ) {
     //     日期
     //     数组
     //     普通对象
-    //     正则对象
     
     switch ( srcType ) {
         case "array":
@@ -54,18 +86,23 @@ function cloneObject ( src ) {
                 result[name] = cloneObject(src[name]);
             }
             break;
-    }
 
-    
-    if (result===undefined) {
-        console.log("This method can not clone 'Function' or 'RegExp'.")
+        default:
+            result = src;
     }
-
 
     return result;
 }
 
-// 这个去重有去掉 undefined，去掉空字符串的作用
+
+/**
+ * 数组去重
+ * 目前有去掉 undefined，去掉空字符串的作用
+ * 可能会将这两个功能单独写一个方法
+ *
+ * @param {array} arr
+ * @retrun {array} 
+ */ 
 function uniqArray ( arr ) {
     var result = [];
 
@@ -78,11 +115,27 @@ function uniqArray ( arr ) {
     return result;
 }
 
+
+/**
+ * 去除string前后的空白字符
+ *
+ * @param {string} str
+ * @retrun {string}
+ */
 function trim ( str ) {
     result = str.match(/^\s*(.*\S)\s*$/)[1];
     return result;
 }
 
+
+/**
+ * 遍历数组的each函数
+ * 为了应付不支持数组forEach的浏览器
+ * 这个方法可以用于类数组的对象
+ *
+ * @param {array} arr 被遍历的数组
+ * @param {function} fn 对数组每个元素执行的函数
+ */
 function each ( arr, fn ) {
     if ( Array.prototype.forEach ) {
         // arr.forEach( fn );
@@ -97,11 +150,16 @@ function each ( arr, fn ) {
 
         for (i=0; i<l; i++) {
             fn(arr[i], i, arr);
-        }
-        
+        }    
     }
 }
 
+/**
+ * 获取对象第一层元素的数量
+ *
+ * @param {object} obj 对象
+ * @return {number} 元素数量
+*/
 function getObjectLength ( obj ) {
     var i,
         result = 0;
@@ -112,12 +170,26 @@ function getObjectLength ( obj ) {
     return result;
 }
 
+
+/**
+ * 判断字符串是否为邮箱地址
+ *
+ * @param {string} emailStr 待判断字符串
+ * @return {boolean}
+*/
 function isEmail ( emailStr ) {
-    if(getType(emailStr) !== "string") return false;
+    if(!emailStr || getType(emailStr) !== "string") return false;
     var reg = /^\S+@\S+\.\S+$/;
     return reg.test(emailStr);
 }
 
+
+/**
+ * 判断字符串是否为手机号
+ *
+ * @param {string} phone 待判断字符串
+ * @return {boolean}
+*/
 function isMobilePhone ( phone ) {
     var type = getType(phone);
     if (type !== "string") {
@@ -132,35 +204,59 @@ function isMobilePhone ( phone ) {
 }
 
 
-//以下几个操作Class的方法，也许可以考虑使用 classList 
+//以下几个操作Class的方法，也许可以考虑使用 classList
+
+/**
+ * 添加class
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} newClassName 添加的class name
+ */
 function addClass ( element, newClassName ) {
-    if ( !element.nodeType||getType(newClassName) !== "string" ) return false;
-    if (haveClass(element, newClassName)) return false;
-    if (element.className) {
-        element.className += " "+ newClassName;
-    } else {
-        element.className = newClassName;
+    if ( !element.nodeType||getType(newClassName) !== "string" ) return;
+    if (!haveClass(element, newClassName)) {
+        if (element.className) {
+            [element.className, newClassName].join(" ");
+        } else {
+            element.className = newClassName;
+        }
     }
 }
 
+
+/**
+ * 删除class
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} oldClassName 删除的class name
+ */
 function removeClass ( element, oldClassName ) {
-    if ( !element.nodeType||getType(oldClassName) !== "string" ) return false;
+    if ( !element.nodeType||getType(oldClassName) !== "string" ) return;
 
-    if (!haveClass(element, oldClassName)) return false;
+    if (haveClass(element, oldClassName)) {
+        var cn = element.className.split(/\s+/);
 
-    var cn = element.className.split(/\s+/);
+        var index = cn.indexOf(oldClassName);
+        cn.splice(index, 1);
 
-    var index = cn.indexOf(oldClassName);
-    cn.splice(index, 1);
+        element.className = cn.join(" ");
+    }
 
-    element.className = cn.join(" ");
 }
 
+
+/**
+ * 判断元素是否有某个类
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} className 待判断类名
+ * @return {boolean}
+ */
 function haveClass ( element, className ) {
-    if ( !element.nodeType||getType(className) !== "string" ) return false;
-
+    //if ( !element.nodeType||getType(className) !== "string" ) return false;
+    if (!element.className) return false;
+    
     var cn = element.className.split(/\s+/);
-
     var result = false;
 
     if ( cn.indexOf(className) !== -1 ) {
