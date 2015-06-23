@@ -266,14 +266,29 @@ function haveClass ( element, className ) {
     return result;
 }
 
+
+/**
+ * 判断两个元素是否是兄弟元素
+ *
+ * @param {HTMLelement} element 元素
+ * @param {HTMLelement} siblingNode 待判定兄弟元素
+ * @return {boolean}
+ */
 function isSiblingNode ( element, siblingNode ) {
     // 可能需要用 parentElement 对IE作兼容
     return element.parentNode === siblingNode.parentNode;
 }
 
-// get position
-// 这里需要获取CSS样式，所以先写一个CSS方法
 
+// get position需要获取CSS样式，所以先写一个CSS方法
+
+/**
+ * 获取css属性值
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} cssName 属性名
+ * @return {string} 属性值
+ */
 function css ( element, cssName ) {
     if ( !element.nodeType||getType(cssName) !== "string" ) return null;
 
@@ -286,7 +301,13 @@ function css ( element, cssName ) {
     // }
 }
 
-// 在整个网页中的绝对位置
+
+/**
+ * 在整个网页中的绝对位置
+ * 
+ * @param {HTMLelement} element 元素
+ * @return {object} 坐标，包含x,y
+ */
 function getElementPosition ( element ) {
     if (!element.nodeType) return false;
     var left = element.offsetLeft,
@@ -308,7 +329,13 @@ function getElementPosition ( element ) {
     };
 }
 
-// 相对于viewport的位置
+
+/**
+ * 相对于viewport的位置
+ * 
+ * @param {HTMLelement} element 元素
+ * @return {object} 坐标，包含x,y
+ */
 function getPosition ( element ) {
     if (!element.nodeType) return false;
     
@@ -334,7 +361,14 @@ function getPosition ( element ) {
 // 这个代码写得有些奇怪，暂时可用
 // 我觉得正则的判断有些多余，可以直接通过selector[0]进行判断
 
-// 这里用到了reduce，可能需要自己实现一次
+// 这里用到了reduce，可能为了兼容需要自己实现一次
+/**
+ * $ mini 选择器
+ * 
+ * @param {string} selector tag|id|class|attribute
+ * @param {HTMLelement} base 父元素 默认为document
+ * @return {HTMLelement}
+ */
 function $ ( selector, base ) {
     var seleStr,
         elList,
@@ -411,6 +445,14 @@ function $ ( selector, base ) {
 
 // 事件
 // 主要是兼容问题
+
+/**
+ * 添加事件
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} event 事件名
+ * @param {function} listener 执行函数
+ */
 function addEvent ( element, event, listener ) {
     if (!element || !element.nodeType) return false;
 
@@ -421,6 +463,14 @@ function addEvent ( element, event, listener ) {
     }
 }
 
+
+/**
+ * 删除事件
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} event 事件名
+ * @param {function} listener 执行函数
+ */
 function removeEvent ( element, event, listener ) {
     if ( !element || !element.nodeType ) return false;
 
@@ -431,10 +481,23 @@ function removeEvent ( element, event, listener ) {
     }
 }
 
+/**
+ * 添加点击事件
+ *
+ * @param {HTMLelement} element 元素
+ * @param {function} listener 执行函数
+ */
 function addClickEvent ( element, listener ) {
     return addEvent(element, 'click', listener);
 }
 
+
+/**
+ * 添加回车事件
+ *
+ * @param {HTMLelement} element 元素
+ * @param {function} listener 执行函数
+ */
 function addEnterEvent ( element, listener ) {
     addEvent(element, 'keypress', function (e) {
         if ( e.keyCode === 13) {
@@ -443,10 +506,17 @@ function addEnterEvent ( element, listener ) {
     });
 }
 
+
+/**
+ * 事件代理
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} tag 标签名
+ * @param {string} event 事件名
+ * @param {function} listener 执行函数
+ */
 function delegateEvent ( element, tag, eventName, listener ) {
-
     addEvent(element, eventName, function(e){
-
         if ( e.target && e.target.nodeName.toLowerCase() === tag ) {
             listener(e);
         }
@@ -476,8 +546,13 @@ $.enter = generate(addEnterEvent);
 $.delegate = generate(delegateEvent);
 
 
-function isIE () {
 
+/**
+ * 浏览器是否为IE
+ *
+ * @return {boolean}
+ */
+function isIE () {
 
     var ua = window.navigator.userAgent;
     var msie = ua.indexOf("MSIE ");
@@ -492,6 +567,19 @@ function isIE () {
 
 }
 
+
+
+/**
+ * 设置cookie
+ *
+ * @param {string} c_name cookieName
+ * @param {string} value  cookieValue
+ * 以下参数可选
+ * @param {number} expiredays 保存天数
+ * @param {string} path 路径
+ * @param {string} domain 域
+ * @param {string} secure 
+ */
 function setCookie( c_name, value, expiredays, path, domain, secure ) {
     var oCookie = c_name + "=" +escape(value);
     
@@ -517,6 +605,13 @@ function setCookie( c_name, value, expiredays, path, domain, secure ) {
     document.cookie = oCookie;
 }
 
+
+/**
+ * 获取cookie值
+ *
+ * @param {string} c_name cookieName
+ * @return {string} 对应的cookie值
+ */
 function getCookie ( c_name ) {
     if ( document.cookie.length>0 ) { 
         c_start=document.cookie.indexOf(c_name + "=");
@@ -532,12 +627,31 @@ function getCookie ( c_name ) {
     return "";
 }
 
+/**
+ * 删除cookie
+ *
+ * @param {string} c_name cookieName
+ * @param {string} value  cookieValue
+ * 以下参数可选
+ * @param {string} path 路径
+ * @param {string} domain 域
+ * @param {string} secure 
+ */
 function unsetCookie ( c_name, value, path, domain, secure ) {
     setCookie(c_name, '', new Date(0), path, domain, secure);
 }
 
 
-// Ajax
+/** Ajax
+ *
+ * @param {string} url
+ * @param {
+ *      {string} type get/post
+ *      {object} data 发送的数据
+ *      {function} onsuccess 成功后回调
+ *      {function} onfail 失败后回调  
+ * } options 相关配置     
+ */
 function ajax ( url, options ) {
     var xhr, data, i;
     if ( window.XMLHttpRequest) {
@@ -575,7 +689,16 @@ function ajax ( url, options ) {
 
 
 
-
+/**
+ * 运动
+ *
+ * @param {HTMLelement} element
+ * @param {string} attr 属性名
+ * @param {number} oldValue 起始值
+ * @param {number} newValue 结束值
+ * @param {number} dTime 运动进行时间
+ * @param {function} callBack 结束后可执行的回调
+ */
 function animate ( element, attr, oldValue, newValue, dTime, callBack ) {
     if ( !element || !element.nodeType ) return false;
 
