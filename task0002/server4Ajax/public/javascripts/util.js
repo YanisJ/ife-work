@@ -1,27 +1,60 @@
-function getType ( param ) {
-    return Object.prototype.toString.call(param).match(/\s(.+)\]/)[1].toLowerCase();
+/**
+ *
+ * @file util.js
+ *
+ */
+
+
+
+/**
+ * 判断对象的数据类型
+ *
+ * @param {*} variable 任意类型的variable
+ * @return {string} 数据类型
+ */
+function getType ( variable ) {
+    return Object.prototype.toString.call(variable).match(/\s(.+)\]/)[1].toLowerCase();
 }
 
+
+/**
+ * 判断变量是否是数组
+ *
+ * @param {*} arr
+ * @return {boolean}
+ */
 function isArray ( arr ) {
     return getType(arr) === "array";
 }
 
+
+/**
+ * 判断变量是否是函数
+ *
+ * @param {*} fn
+ * @return {boolean}
+ */
 function isFunction ( fn ) {
     return getType(fn) === "function";
 }
 
+
+/**
+ * 深度clone
+ * 不能复制函数、正则等，这些类型会直接返回引用
+ *
+ * @param {*} src 任意类型待复制对象
+ * @return {obj} clone处的新对象
+ */
 function cloneObject ( src ) {
     // 处理5中基本类型
     if ( src === undefined ) return src;
 
-    var result,
-        srcType = getType(src);
-    
-    var i,
-        typeList = ['string', 'boolean', 'number'],
-        l = typeList.length;
+    var result;
+    var srcType = getType(src);
+    var typeList = ['string', 'boolean', 'number'];
 
-    for (i=0; i<l; i++) {
+    for (var i=0, l=typeList.length; i<l; i++) {
         if (srcType === typeList[i]) return src;
     }
 
@@ -30,7 +63,6 @@ function cloneObject ( src ) {
     //     日期
     //     数组
     //     普通对象
-    //     正则对象
     
     switch ( srcType ) {
         case "array":
@@ -54,18 +86,23 @@ function cloneObject ( src ) {
                 result[name] = cloneObject(src[name]);
             }
             break;
-    }
 
-    
-    if (result===undefined) {
-        console.log("This method can not clone 'Function' or 'RegExp'.")
+        default:
+            result = src;
     }
-
 
     return result;
 }
 
-// 这个去重有去掉 undefined，去掉空字符串的作用
+
+/**
+ * 数组去重
+ * 目前有去掉 undefined，去掉空字符串的作用
+ * 可能会将这两个功能单独写一个方法
+ *
+ * @param {array} arr
+ * @retrun {array} 
+ */ 
 function uniqArray ( arr ) {
     var result = [];
 
@@ -78,11 +115,27 @@ function uniqArray ( arr ) {
     return result;
 }
 
+
+/**
+ * 去除string前后的空白字符
+ *
+ * @param {string} str
+ * @retrun {string}
+ */
 function trim ( str ) {
     result = str.match(/^\s*(.*\S)\s*$/)[1];
     return result;
 }
 
+
+/**
+ * 遍历数组的each函数
+ * 为了应付不支持数组forEach的浏览器
+ * 这个方法可以用于类数组的对象
+ *
+ * @param {array} arr 被遍历的数组
+ * @param {function} fn 对数组每个元素执行的函数
+ */
 function each ( arr, fn ) {
     if ( Array.prototype.forEach ) {
         // arr.forEach( fn );
@@ -97,11 +150,16 @@ function each ( arr, fn ) {
 
         for (i=0; i<l; i++) {
             fn(arr[i], i, arr);
-        }
-        
+        }    
     }
 }
 
+/**
+ * 获取对象第一层元素的数量
+ *
+ * @param {object} obj 对象
+ * @return {number} 元素数量
+*/
 function getObjectLength ( obj ) {
     var i,
         result = 0;
@@ -112,12 +170,26 @@ function getObjectLength ( obj ) {
     return result;
 }
 
+
+/**
+ * 判断字符串是否为邮箱地址
+ *
+ * @param {string} emailStr 待判断字符串
+ * @return {boolean}
+*/
 function isEmail ( emailStr ) {
-    if(getType(emailStr) !== "string") return false;
+    if(!emailStr || getType(emailStr) !== "string") return false;
     var reg = /^\S+@\S+\.\S+$/;
     return reg.test(emailStr);
 }
 
+
+/**
+ * 判断字符串是否为手机号
+ *
+ * @param {string} phone 待判断字符串
+ * @return {boolean}
+*/
 function isMobilePhone ( phone ) {
     var type = getType(phone);
     if (type !== "string") {
@@ -132,35 +204,59 @@ function isMobilePhone ( phone ) {
 }
 
 
-//以下几个操作Class的方法，也许可以考虑使用 classList 
+//以下几个操作Class的方法，也许可以考虑使用 classList
+
+/**
+ * 添加class
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} newClassName 添加的class name
+ */
 function addClass ( element, newClassName ) {
-    if ( !element.nodeType||getType(newClassName) !== "string" ) return false;
-    if (haveClass(element, newClassName)) return false;
-    if (element.className) {
-        element.className += " "+ newClassName;
-    } else {
-        element.className = newClassName;
+    if ( !element.nodeType||getType(newClassName) !== "string" ) return;
+    if (!haveClass(element, newClassName)) {
+        if (element.className) {
+            [element.className, newClassName].join(" ");
+        } else {
+            element.className = newClassName;
+        }
     }
 }
 
+
+/**
+ * 删除class
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} oldClassName 删除的class name
+ */
 function removeClass ( element, oldClassName ) {
-    if ( !element.nodeType||getType(oldClassName) !== "string" ) return false;
+    if ( !element.nodeType||getType(oldClassName) !== "string" ) return;
 
-    if (!haveClass(element, oldClassName)) return false;
+    if (haveClass(element, oldClassName)) {
+        var cn = element.className.split(/\s+/);
 
-    var cn = element.className.split(/\s+/);
+        var index = cn.indexOf(oldClassName);
+        cn.splice(index, 1);
 
-    var index = cn.indexOf(oldClassName);
-    cn.splice(index, 1);
+        element.className = cn.join(" ");
+    }
 
-    element.className = cn.join(" ");
 }
 
+
+/**
+ * 判断元素是否有某个类
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} className 待判断类名
+ * @return {boolean}
+ */
 function haveClass ( element, className ) {
-    if ( !element.nodeType||getType(className) !== "string" ) return false;
-
+    //if ( !element.nodeType||getType(className) !== "string" ) return false;
+    if (!element.className) return false;
+    
     var cn = element.className.split(/\s+/);
-
     var result = false;
 
     if ( cn.indexOf(className) !== -1 ) {
@@ -170,27 +266,59 @@ function haveClass ( element, className ) {
     return result;
 }
 
+
+/**
+ * 判断两个元素是否是兄弟元素
+ *
+ * @param {HTMLelement} element 元素
+ * @param {HTMLelement} siblingNode 待判定兄弟元素
+ * @return {boolean}
+ */
 function isSiblingNode ( element, siblingNode ) {
     // 可能需要用 parentElement 对IE作兼容
     return element.parentNode === siblingNode.parentNode;
 }
 
-// get position
-// 这里需要获取CSS样式，所以先写一个CSS方法
 
-function css ( element, cssName ) {
+// get position需要获取CSS样式，所以先写一个CSS方法
+
+/**
+ * 获取css属性值
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} cssName 属性名
+ * @param {string|function} value 属性值
+ * @return {string} 属性值
+ */
+function css ( element, cssName, value ) {
     if ( !element.nodeType||getType(cssName) !== "string" ) return null;
 
-    if ( getComputedStyle ) {
-        return getComputedStyle(element)[cssName];
+    var isFn;
+
+    if (value) {
+        if (getType(value) === "function") {
+            isFn = true;
+        }
+
+        element.style[cssName] = isFn ? value(element, css(element, cssName)) : value;
+    } else {
+        if ( element.currentStyle ) {
+            return element.currentStyle[cssName];
+        }
+        
+        else {
+            return getComputedStyle(element)[cssName];
+        }
     }
-    // for ie   暂时不写，这里的问题是两者的CSS属性名称可能会有不同
-    // else {
-    //     return element.currentStyle[cssName];
-    // }
 }
 
-// 在整个网页中的绝对位置
+
+/**
+ * 在整个网页中的绝对位置
+ * 
+ * @param {HTMLelement} element 元素
+ * @return {object} 坐标，包含x,y
+ */
 function getElementPosition ( element ) {
     if (!element.nodeType) return false;
     var left = element.offsetLeft,
@@ -212,7 +340,13 @@ function getElementPosition ( element ) {
     };
 }
 
-// 相对于viewport的位置
+
+/**
+ * 相对于viewport的位置
+ * 
+ * @param {HTMLelement} element 元素
+ * @return {object} 坐标，包含x,y
+ */
 function getPosition ( element ) {
     if (!element.nodeType) return false;
     
@@ -238,7 +372,14 @@ function getPosition ( element ) {
 // 这个代码写得有些奇怪，暂时可用
 // 我觉得正则的判断有些多余，可以直接通过selector[0]进行判断
 
-// 这里用到了reduce，可能需要自己实现一次
+// 这里用到了reduce，可能为了兼容需要自己实现一次
+/**
+ * $ mini 选择器
+ * 
+ * @param {string} selector tag|id|class|attribute
+ * @param {HTMLelement} base 父元素 默认为document
+ * @return {HTMLelement}
+ */
 function $ ( selector, base ) {
     var seleStr,
         elList,
@@ -315,6 +456,14 @@ function $ ( selector, base ) {
 
 // 事件
 // 主要是兼容问题
+
+/**
+ * 添加事件
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} event 事件名
+ * @param {function} listener 执行函数
+ */
 function addEvent ( element, event, listener ) {
     if (!element || !element.nodeType) return false;
 
@@ -325,6 +474,14 @@ function addEvent ( element, event, listener ) {
     }
 }
 
+
+/**
+ * 删除事件
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} event 事件名
+ * @param {function} listener 执行函数
+ */
 function removeEvent ( element, event, listener ) {
     if ( !element || !element.nodeType ) return false;
 
@@ -335,10 +492,23 @@ function removeEvent ( element, event, listener ) {
     }
 }
 
+/**
+ * 添加点击事件
+ *
+ * @param {HTMLelement} element 元素
+ * @param {function} listener 执行函数
+ */
 function addClickEvent ( element, listener ) {
     return addEvent(element, 'click', listener);
 }
 
+
+/**
+ * 添加回车事件
+ *
+ * @param {HTMLelement} element 元素
+ * @param {function} listener 执行函数
+ */
 function addEnterEvent ( element, listener ) {
     addEvent(element, 'keypress', function (e) {
         if ( e.keyCode === 13) {
@@ -347,10 +517,17 @@ function addEnterEvent ( element, listener ) {
     });
 }
 
+
+/**
+ * 事件代理
+ *
+ * @param {HTMLelement} element 元素
+ * @param {string} tag 标签名
+ * @param {string} event 事件名
+ * @param {function} listener 执行函数
+ */
 function delegateEvent ( element, tag, eventName, listener ) {
-
     addEvent(element, eventName, function(e){
-
         if ( e.target && e.target.nodeName.toLowerCase() === tag ) {
             listener(e);
         }
@@ -380,8 +557,13 @@ $.enter = generate(addEnterEvent);
 $.delegate = generate(delegateEvent);
 
 
-function isIE () {
 
+/**
+ * 浏览器是否为IE
+ *
+ * @return {boolean}
+ */
+function isIE () {
 
     var ua = window.navigator.userAgent;
     var msie = ua.indexOf("MSIE ");
@@ -396,6 +578,19 @@ function isIE () {
 
 }
 
+
+
+/**
+ * 设置cookie
+ *
+ * @param {string} c_name cookieName
+ * @param {string} value  cookieValue
+ * 以下参数可选
+ * @param {number} expiredays 保存天数
+ * @param {string} path 路径
+ * @param {string} domain 域
+ * @param {string} secure 
+ */
 function setCookie( c_name, value, expiredays, path, domain, secure ) {
     var oCookie = c_name + "=" +escape(value);
     
@@ -421,6 +616,13 @@ function setCookie( c_name, value, expiredays, path, domain, secure ) {
     document.cookie = oCookie;
 }
 
+
+/**
+ * 获取cookie值
+ *
+ * @param {string} c_name cookieName
+ * @return {string} 对应的cookie值
+ */
 function getCookie ( c_name ) {
     if ( document.cookie.length>0 ) { 
         c_start=document.cookie.indexOf(c_name + "=");
@@ -436,12 +638,31 @@ function getCookie ( c_name ) {
     return "";
 }
 
+/**
+ * 删除cookie
+ *
+ * @param {string} c_name cookieName
+ * @param {string} value  cookieValue
+ * 以下参数可选
+ * @param {string} path 路径
+ * @param {string} domain 域
+ * @param {string} secure 
+ */
 function unsetCookie ( c_name, value, path, domain, secure ) {
     setCookie(c_name, '', new Date(0), path, domain, secure);
 }
 
 
-// Ajax
+/** Ajax
+ *
+ * @param {string} url
+ * @param {
+ *      {string} type get/post
+ *      {object} data 发送的数据
+ *      {function} onsuccess 成功后回调
+ *      {function} onfail 失败后回调  
+ * } options 相关配置     
+ */
 function ajax ( url, options ) {
     var xhr, data, i;
     if ( window.XMLHttpRequest) {
@@ -479,7 +700,16 @@ function ajax ( url, options ) {
 
 
 
-
+/**
+ * 运动
+ *
+ * @param {HTMLelement} element
+ * @param {string} attr 属性名
+ * @param {number} oldValue 起始值
+ * @param {number} newValue 结束值
+ * @param {number} dTime 运动进行时间
+ * @param {function} callBack 结束后可执行的回调
+ */
 function animate ( element, attr, oldValue, newValue, dTime, callBack ) {
     if ( !element || !element.nodeType ) return false;
 
