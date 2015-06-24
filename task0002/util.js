@@ -286,19 +286,37 @@ function isSiblingNode ( element, siblingNode ) {
  * 获取css属性值
  *
  * @param {HTMLelement} element 元素
- * @param {string} cssName 属性名
+ * @param {string|object} cssName 属性名
+ * @param {string|function} value 属性值
  * @return {string} 属性值
  */
-function css ( element, cssName ) {
-    if ( !element.nodeType||getType(cssName) !== "string" ) return null;
+function css ( element, cssName, value ) {
+    if ( !element.nodeType ) return null;
 
-    if ( getComputedStyle ) {
-        return getComputedStyle(element)[cssName];
+    var isFn;
+
+    if ( getType( cssName ) === 'object' ) {
+        for ( var key in cssName ) {
+            css( element, key, cssName[key] );
+        }
+        return;
     }
-    // for ie   暂时不写，这里的问题是两者的CSS属性名称可能会有不同
-    // else {
-    //     return element.currentStyle[cssName];
-    // }
+
+    if (value) {
+        if (getType(value) === "function") {
+            isFn = true;
+        }
+
+        element.style[cssName] = isFn ? value(element, css(element, cssName)) : value;
+    } else {
+        if ( element.currentStyle ) {
+            return element.currentStyle[cssName];
+        }
+        
+        else {
+            return getComputedStyle(element)[cssName];
+        }
+    }
 }
 
 
